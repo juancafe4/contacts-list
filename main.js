@@ -50,13 +50,15 @@ function saveUpdate(event) {
   $($tr).find('.email-table').text(emailEdit)
   $($tr).find('.phone-table').text(phoneEdit)
 
-
+  $('#contacts').children('.view').removeClass()
+  $('.delete').css('display', 'none')
+  $('.edit').css('display', 'none')
   $('#contactEditModal').closeModal();
 }
 //Displays the options delete edit
 function showOptions(e) {
   $tr = e.target.parentElement
-  $('#contacts').removeClass('view');
+  $('#contacts').children('.view').removeClass()
   $('.delete').css('display', 'none')
   $('.edit').css('display', 'none')
   
@@ -90,6 +92,7 @@ function editContact(e) {
   
   $('.delete').css('display', 'none')
   $('.edit').css('display', 'none')
+  $('#contacts').children('.view').removeClass()
 }
 // it deletes a contact
 function deleteContact() {
