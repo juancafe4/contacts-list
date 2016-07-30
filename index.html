@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Contacts</title>
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
@@ -59,10 +59,10 @@
       <th data-field="phone">Phone Number</th>
       <th data-field="edit"></th>
       <th data-field="delete"></th
-    </tr>
-  </thead>
+      </tr>
+    </thead>
 
-  <tbody id="contacts">
+    <tbody id="contacts">
       <tr id="template">
         <td class='firstName-table'></td>
         <td class="lastName-table"></td>
@@ -71,8 +71,43 @@
         <td> <button type=button class="btn-flat edit"><i class="material-icons">mode_edit</i></button></td>
         <td><button type=button class="btn-flat delete"><i class="material-icons">delete</i></button></td>
       </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 </div>
+
+<!-- Modal Structure -->
+<div id='contactEditModal' class="modal">
+  <div class="modal-content">
+    <h4>Edit Contact</h4>
+    <p>Please make any changes that you want</p>
+    <div class="row">
+     <form id="editContactForm" class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+        <input  id="firstNameEdit" type="text" class="validate" required>
+          
+        </div>
+        <div class="input-field col s6">
+          <input id="lastNameEdit" type="text" class="validate" reuiqred>
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="emailEdit" type="email" class="validate" required>
+          
+        </div>
+        <div class="input-field col s6">
+          <input id="phoneEdit" type="number" class="validate" required>
+          
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button  class=" editContactButton waves-effect waves-green btn-flat">Agree</button>
+      <a  class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

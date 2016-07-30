@@ -6,6 +6,9 @@ $(() => {
   let $trs = contacts.map((contact) => {
     return createTr(contact.firstName, contact.lastName, contact.email, contact.phone)
   }); 
+
+  $('.modal-trigger').leanModal();
+
   $('#contacts').append($trs);
   $('#contactForm').submit(addContact);
 
@@ -13,8 +16,8 @@ $(() => {
   $('#contacts').on('click', '.edit', editContact); 
 
   $('#contacts').on('click', 'tr', showOptions)
-})
 
+})
 
 //Displays the options delete edit
 function showOptions(e) {
@@ -31,9 +34,24 @@ function showOptions(e) {
     $edit.css('display', 'initial')
     $($tr).addClass('view')
   }
+
   else{
     $($tr).removeClass('view')
   }
+}
+
+
+// edits a contact
+function editContact(e) {
+  console.log('edit')
+
+  let $tr = $(this).parent('td').parent('tr')
+
+  $('#contactEditModal').openModal();
+  $('#firstNameEdit').val($tr.find('.firstName-table').text())
+  $('#lastNameEdit').val($tr.find('.lastName-table').text())
+  $('#emailEdit').val($tr.find('.email-table').text())
+  $('#phoneEdit').val($tr.find('.phone-table').text())
 }
 // it deletes a contact
 function deleteContact() {
@@ -61,18 +79,14 @@ function removeFromStorage(firstName, lastName, email, phone) {
     if (contact.firstName === firstName && contact.lastName === lastName
       && contact.email === email && contact.phone === phone) {
       contacts.splice(i, 1);
-      break;
-    }
+    break;
   }
-
-
-  writeToStorage(contacts);
 }
 
-// edits a contact
-function editContact() {
-  console.log('edit')
+
+writeToStorage(contacts);
 }
+
 /*Create The contact andattach it*/
 function addContact(event) {
   event.preventDefault();
