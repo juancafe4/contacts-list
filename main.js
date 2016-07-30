@@ -38,7 +38,37 @@ function showOptions(e) {
 // it deletes a contact
 function deleteContact() {
   console.log('delete');
+
+  let $tr = $(this).parent('td').parent('tr')
+
+  let firstName = $tr.find('.firstName-table').text()
+  let lastName = $tr.find('.lastName-table').text()
+  let email = $tr.find('.email-table').text()
+  let phone = $tr.find('.phone-table').text()
+
+  removeFromStorage(firstName, lastName, email, phone);
+
+  $tr.remove();
 }
+
+//This deletes from storage
+function removeFromStorage(firstName, lastName, email, phone) {
+  let contacts = contactsFromStorage()
+
+  for (let i = 0; i < contacts.length; i++) {
+    let contact = contacts[i]
+
+    if (contact.firstName === firstName && contact.lastName === lastName
+      && contact.email === email && contact.phone === phone) {
+      contacts.splice(i, 1);
+      break;
+    }
+  }
+
+
+  writeToStorage(contacts);
+}
+
 // edits a contact
 function editContact() {
   console.log('edit')
