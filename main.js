@@ -31,7 +31,26 @@ function saveUpdate(event) {
   let email = $($tr).find('.email-table').text()
   let phone = $($tr).find('.phone-table').text()
   
-  console.log("name", firstName)
+  let index = findFromStorage(firstName, lastName, email, phone);
+  let contacts = contactsFromStorage()
+  let firstNameEdit = $('#firstNameEdit').val()
+  let lastNameEdit = $('#lastNameEdit').val()
+  let emailEdit = $('#emailEdit').val()
+  let phoneEdit = $('#phoneEdit').val()
+
+  
+  contacts[index].firstName = firstNameEdit;
+  contacts[index].lastName = lastNameEdit;
+  contacts[index].email = emailEdit;
+  contacts[index].phone = phoneEdit;
+  writeToStorage(contacts)
+
+  $($tr).find('.firstName-table').text(firstNameEdit)
+  $($tr).find('.lastName-table').text(lastNameEdit)
+  $($tr).find('.email-table').text(emailEdit)
+  $($tr).find('.phone-table').text(phoneEdit)
+
+
   $('#contactEditModal').closeModal();
 }
 //Displays the options delete edit
@@ -68,6 +87,7 @@ function editContact(e) {
   $('#lastNameEdit').val($tr.find('.lastName-table').text())
   $('#emailEdit').val($tr.find('.email-table').text())
   $('#phoneEdit').val($tr.find('.phone-table').text())
+  
   $('.delete').css('display', 'none')
   $('.edit').css('display', 'none')
 }
