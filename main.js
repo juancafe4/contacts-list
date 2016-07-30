@@ -16,9 +16,24 @@ $(() => {
   $('#contacts').on('click', '.edit', editContact); 
 
   $('#contacts').on('click', 'tr', showOptions)
-
+  $('#editContactButton').click(saveUpdate)
 })
 
+
+//Save and Updates and changes
+function saveUpdate(event) {
+  event.preventDefault();
+  console.log('save')
+  let $tr = $('#contacts').children()[$('#contacts').data('index')];
+  
+  let firstName = $($tr).find('.firstName-table').text()
+  let lastName = $($tr).find('.lastName-table').text()
+  let email = $($tr).find('.email-table').text()
+  let phone = $($tr).find('.phone-table').text()
+  
+  console.log("name", firstName)
+  $('#contactEditModal').closeModal();
+}
 //Displays the options delete edit
 function showOptions(e) {
   $tr = e.target.parentElement
@@ -46,12 +61,15 @@ function editContact(e) {
   console.log('edit')
 
   let $tr = $(this).parent('td').parent('tr')
-
+  
+  $('#contacts').data('index', $tr.index());
   $('#contactEditModal').openModal();
   $('#firstNameEdit').val($tr.find('.firstName-table').text())
   $('#lastNameEdit').val($tr.find('.lastName-table').text())
   $('#emailEdit').val($tr.find('.email-table').text())
   $('#phoneEdit').val($tr.find('.phone-table').text())
+  $('.delete').css('display', 'none')
+  $('.edit').css('display', 'none')
 }
 // it deletes a contact
 function deleteContact() {
@@ -64,13 +82,15 @@ function deleteContact() {
   let email = $tr.find('.email-table').text()
   let phone = $tr.find('.phone-table').text()
 
-  removeFromStorage(firstName, lastName, email, phone);
-
+  let index = findFromStorage(firstName, lastName, email, phone);
+  let contacts = contactsFromStorage()
+  contacts.splice(index, 1);
+  writeToStorage(contacts)
   $tr.remove();
 }
 
-//This deletes from storage
-function removeFromStorage(firstName, lastName, email, phone) {
+//Find the index that we looking for 
+function findFromStorage(firstName, lastName, email, phone) {
   let contacts = contactsFromStorage()
 
   for (let i = 0; i < contacts.length; i++) {
@@ -78,13 +98,12 @@ function removeFromStorage(firstName, lastName, email, phone) {
 
     if (contact.firstName === firstName && contact.lastName === lastName
       && contact.email === email && contact.phone === phone) {
-      contacts.splice(i, 1);
-    break;
+      
+      return i;
+    }
   }
-}
 
-
-writeToStorage(contacts);
+  return - 1;
 }
 
 /*Create The contact andattach it*/

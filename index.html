@@ -81,7 +81,7 @@
     <h4>Edit Contact</h4>
     <p>Please make any changes that you want</p>
     <div class="row">
-     <form id="editContactForm" class="col s12">
+     <form id="editContactForm" >
       <div class="row">
         <div class="input-field col s6">
         <input  id="firstNameEdit" type="text" class="validate" required>
@@ -104,10 +104,11 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button  class=" editContactButton waves-effect waves-green btn-flat">Agree</button>
+      <button  type='button' id="editContactButton" class="waves-effect waves-green btn-flat">Save</button>
       <a  class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
-      </form>
+      
     </div>
+    </form>
   </div>
 </body>
 </html>
