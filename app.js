@@ -25,10 +25,10 @@ app.route('/contacts')
   })
   //Post stuff to data
   .post((req, res) => {
-    Contact.create(req.body, err => {
+    Contact.create(req.body, (err, id) => {
       console.log(req.body)
       if(err) res.status(400).send(err);
-      else res.send();
+      else res.send(id);
     });
 
   });

@@ -31,7 +31,8 @@ exports.create = function(contact, cb) {
         contact.id = uuid.v4()
         contacts.push(contact)
         fs.writeFile(dataFilePath, JSON.stringify(contacts), (err) => {
-          cb(err)
+          if (err) return cb(err)
+          cb(err, contact.id)
         })
       }
     });
