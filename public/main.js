@@ -5,14 +5,14 @@ $(() => {
 
   $.get("/contacts", data => {
     addToTable(data )
+    $('.modal-trigger').leanModal();
 
     $('#contactForm').submit(addContact);
     $('#contacts').on('click', 'tr', showOptions)
     
     $('#contacts').on('click', '.delete', deleteContact); 
-    //$('#contacts').on('click', '.edit', editContact); 
-
-    // $('.modal-trigger').leanModal();
+    $('#contacts').on('click', '.edit', editContact); 
+    $('#editContactButton').click(saveUpdate)
   })
 
 
@@ -26,7 +26,7 @@ $(() => {
   // $('#contacts').append($trs);
   
 
-  // $('#editContactButton').click(saveUpdate)
+  
 })
 
 function addToTable(contacts) {
@@ -42,45 +42,56 @@ function addToTable(contacts) {
     $tr.children('.phone-table').text(contact.phone);
 
     $tr.data('dataId', contact.id)
-  
+
     $('#contacts').append($tr)
   });
 }
-// //Save and Updates and changes
-// function saveUpdate(event) {
-//   event.preventDefault();
-//   console.log('save')
-//   let $tr = $('#contacts').children()[$('#contacts').data('index')];
+//Save and Updates and changes
+function saveUpdate(event) {
+  console.log('save')
+  let $tr = $('#contacts').children()[$('#contacts').data('index')];
 
-//   let firstName = $($tr).find('.firstName-table').text()
-//   let lastName = $($tr).find('.lastName-table').text()
-//   let email = $($tr).find('.email-table').text()
-//   let phone = $($tr).find('.phone-table').text()
-
-//   let index = findFromStorage(firstName, lastName, email, phone);
-//   let contacts = contactsFromStorage()
-//   let firstNameEdit = $('#firstNameEdit').val()
-//   let lastNameEdit = $('#lastNameEdit').val()
-//   let emailEdit = $('#emailEdit').val()
-//   let phoneEdit = $('#phoneEdit').val()
+  let firstName = $($tr).find('.firstName-table').text()
+  let lastName = $($tr).find('.lastName-table').text()
+  let email = $($tr).find('.email-table').text()
+  let phone = $($tr).find('.phone-table').text()
 
 
-//   contacts[index].firstName = firstNameEdit;
-//   contacts[index].lastName = lastNameEdit;
-//   contacts[index].email = emailEdit;
-//   contacts[index].phone = phoneEdit;
-//   writeToStorage(contacts)
+  let firstNameEdit = $('#firstNameEdit').val()
+  let lastNameEdit = $('#lastNameEdit').val()
+  let emailEdit = $('#emailEdit').val()
+  let phoneEdit = $('#phoneEdit').val()
 
-//   $($tr).find('.firstName-table').text(firstNameEdit)
-//   $($tr).find('.lastName-table').text(lastNameEdit)
-//   $($tr).find('.email-table').text(emailEdit)
-//   $($tr).find('.phone-table').text(phoneEdit)
+  //Create and object for contact
+  let putContact = {first_name: firstNameEdit, 
+    last_name: lastNameEdit, email: emailEdit, phone: phoneEdit}
+  $.ajax({
+    type : 'PUT',
+    url : "/contacts/" + $($tr).data('dataId'),
+    data: putContact,
+    success : function(data) {
+      console.log('Success updating contact!')
+    }, 
+    error : function(err) {
+      console.log("Error updating contact!")
+    }
+  });
+  // contacts[index].firstName = firstNameEdit;
+  // contacts[index].lastName = lastNameEdit;
+  // contacts[index].email = emailEdit;
+  // contacts[index].phone = phoneEdit;
+  // writeToStorage(contacts)
 
-//   $('#contacts').children('.view').removeClass()
-//   $('.delete').css('display', 'none')
-//   $('.edit').css('display', 'none')
-//   $('#contactEditModal').closeModal();
-// }
+  $($tr).find('.firstName-table').text(firstNameEdit)
+  $($tr).find('.lastName-table').text(lastNameEdit)
+  $($tr).find('.email-table').text(emailEdit)
+  $($tr).find('.phone-table').text(phoneEdit)
+
+  $('#contacts').children('.view').removeClass()
+  $('.delete').css('display', 'none')
+  $('.edit').css('display', 'none')
+  $('#contactEditModal').closeModal();
+}
 //Displays the options delete edit
 function showOptions(e) {
   $tr = e.target.parentElement
@@ -103,30 +114,39 @@ function showOptions(e) {
 }
 
 
-// // edits a contact
-// function editContact(e) {
-//   console.log('edit')
+// edits a contact
+function editContact(e) {
+  console.log('edit')
 
-//   let $tr = $(this).parent('td').parent('tr')
-
-//   $('#contacts').data('index', $tr.index());
-//   $('#contactEditModal').openModal();
-//   $('#firstNameEdit').val($tr.find('.firstName-table').text())
-//   $('#lastNameEdit').val($tr.find('.lastName-table').text())
-//   $('#emailEdit').val($tr.find('.email-table').text())
-//   $('#phoneEdit').val($tr.find('.phone-table').text())
-
-//   $('.delete').css('display', 'none')
-//   $('.edit').css('display', 'none')
-//   $('#contacts').children('.view').removeClass()
-// }
-// it deletes a contact
-function deleteContact() {
-  
   let $tr = $(this).parent('td').parent('tr')
 
-  console.log($tr.data('dataId'))
-  /$tr.remove();
+  $('#contacts').data('index', $tr.index());
+  $('#contactEditModal').openModal();
+  $('#firstNameEdit').val($tr.find('.firstName-table').text())
+  $('#lastNameEdit').val($tr.find('.lastName-table').text())
+  $('#emailEdit').val($tr.find('.email-table').text())
+  $('#phoneEdit').val($tr.find('.phone-table').text())
+
+  $('.delete').css('display', 'none')
+  $('.edit').css('display', 'none')
+  $('#contacts').children('.view').removeClass()
+}
+// it deletes a contact
+function deleteContact() {
+
+  let $tr = $(this).parent('td').parent('tr')
+
+  $.ajax({
+    type : 'DELETE',
+    url : "/contacts/" + $tr.data('dataId'),
+    success : function(data) {
+      console.log('Success deleting contact!')
+    }, 
+    error : function(err) {
+      console.log("Error deleting contact!")
+    }
+  });
+  $tr.remove();
 }
 
 // //Find the index that we looking for 
@@ -165,13 +185,13 @@ function addContact(event) {
   //Create object for contact
   let contact = {first_name: first_name, last_name: last_name,
     email:email, phone:phone}
-  $.post( "/contacts", contact, function(data) {
-    console.log(data)
-    $tr.data('id', data);
-    $("#contacts").append($tr);
-  });
-  
-}
+    $.post( "/contacts", contact, function(data) {
+      console.log(data)
+      $tr.data('id', 'dataId');
+      $("#contacts").append($tr);
+    });
+
+  }
 
 // // This function helps to create a tr to attach to the tbody
 function createTr(firstName, lastName, email, phone) {
