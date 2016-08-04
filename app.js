@@ -26,12 +26,25 @@ app.route('/contacts')
   //Post stuff to data
   .post((req, res) => {
     Contact.create(req.body, err => {
+      console.log(req.body)
       if(err) res.status(400).send(err);
       else res.send();
     });
 
   });
-
+app.route('/contacts/:id')
+  .put((req, res) => {
+    Contact.update(req.params, req.body, err => {
+      if(err) res.status(400).send(err);
+      else res.send();
+    });
+  })
+  .get((req, res) => {
+    
+  })
+  .delete((req, res) => {
+    
+  })
 app.listen(port, err => {
   console.log(err || `Listenning to port 8000`)
 });
