@@ -4,7 +4,12 @@
   "description": "Full stack contacts list that store contacts you can add edit delete read",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "hello":  "echo \"Hello!!!\""
+  },
+  "engines": {
+    "node": "6.3.1"
   },
   "repository": {
     "type": "git",

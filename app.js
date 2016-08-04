@@ -4,12 +4,11 @@ let morgan = require('morgan')
 let path = require('path')
 let app = express();
 let Contact = require('./model/contact')
-const port = 8000
+const port = process.env.PORT || 8000;
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: true}))
 app.use(bodyParser.json())
-
-
+  
 //Static routing
 app.use(express.static('public'));
 
@@ -53,5 +52,5 @@ app.route('/contacts/:id')
     });
   })
 app.listen(port, err => {
-  console.log(err || `Listenning to port 8000`)
+  console.log(err || `Listenning to port ${port}`)
 });

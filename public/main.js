@@ -4,6 +4,7 @@
 $(() => {
 
   $.get("/contacts", data => {
+
     addToTable(data )
     $('.modal-trigger').leanModal();
 
