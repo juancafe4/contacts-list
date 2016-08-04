@@ -7,13 +7,18 @@ $(() => {
     addToTable(data )
     $('.modal-trigger').leanModal();
 
-    $('#contactForm').submit(addContact);
+    $('#contactForm').submit(addContact);   
     $('#contacts').on('click', 'tr', showOptions)
-    
+   
     $('#contacts').on('click', '.delete', deleteContact); 
     $('#contacts').on('click', '.edit', editContact); 
     $('#editContactButton').click(saveUpdate)
-  })
+
+    $(window).keyup((e) => {
+      if (e.keyCode === 13)
+        saveUpdate(e)
+    });
+})
 
 
   // let contacts = contactsFromStorage()
