@@ -40,10 +40,17 @@ app.route('/contacts/:id')
     });
   })
   .get((req, res) => {
-    
+    Contact.getContact(req.params, (err, data) => {
+      console.log('data', err)
+      if(err) res.status(400).send(err);
+      else res.send(data);
+    });
   })
   .delete((req, res) => {
-    
+    Contact.deleteContact(req.params, err => {
+      if(err) res.status(400).send(err);
+      else res.send();
+    });
   })
 app.listen(port, err => {
   console.log(err || `Listenning to port 8000`)
