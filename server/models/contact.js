@@ -6,13 +6,13 @@
 
 const mongoose = require('mongoose');
 
-const contactschema = new mongoose.Schema({
+const contactSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   phoneNumber: {type: String, required: true},
   email: {type: String, required: true}
 });
 
-const Todo = mongoose.model('Todo', todoSchema);
+const Contact = mongoose.model('Contact', contactSchema);
 
-module.exports = Todo;
+module.exports = Contact;
