@@ -7,7 +7,10 @@ import API from '../API'
 //So the store contact can get the info and do the modifications and send them  to the compoent that we need 
 
 let ContactAction = {
-  getAllContacts : API.getAllContacts
+  getAllContacts : API.getAllContacts,
+  createContact(contact) {
+    API.createContact(contact)
+  }
 }
 
 export default ContactAction

@@ -9,6 +9,12 @@ const ServerActions = {
       type: 'RECEIVE_CONTACTS',
       contacts
     })
+  },
+  receiveOneContact(contact) {
+    AppDispatcher.dispatch({
+      type: 'RECEIVE_ONE_TODO',
+      contact
+    })
   }
 }
 

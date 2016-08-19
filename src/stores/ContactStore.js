@@ -19,9 +19,13 @@ class ContactStore extends EventEmitter{
       switch(action.type) {
 
         case 'RECEIVE_CONTACTS':
-          console.log(' registering ', action.contacts)
           _contacts = action.contacts;
           this.emit('CHANGE')
+          break;
+        case 'RECEIVE_ONE_TODO': 
+          let {contact} = action;
+          _contacts.push(contact);
+          this.emit('CHANGE');
           break;
       }
     });

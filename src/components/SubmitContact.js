@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ContactAction from '../actions/ContactAction'
 class SubmitContact extends React.Component {
   constructor(props) {
         super(props);
@@ -33,8 +33,8 @@ class SubmitContact extends React.Component {
     }
     submit(e) {
       e.preventDefault()
-
-      console.log()
+      let {firstName, lastName, email, phoneNumber} = this.state
+      ContactAction.createContact({firstName, lastName, email, phoneNumber})
     }
     render() {
         return (

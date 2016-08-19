@@ -9,6 +9,13 @@ const API = {
       .then(res => res.data)
       .then(ServerActions.receiveContacts)
       .catch(console.error)
+  },
+
+  createContact(contact) {
+    axios.post('api/contacts', contact)
+      .then(res => res.data)
+      .then(ServerActions.receiveOneContact)
+      .catch(console.error)
   }
 }
 
