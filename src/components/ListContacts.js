@@ -1,11 +1,34 @@
 import React from 'react';
 
+import ContactStore from '../stores/ContactStore'
+import ContactAction from '../actions/ContactAction'
+import ListItem from './ListItem';
+
 class ListContacts extends React.Component {
   constructor() {
     super();
-    this.displayName = 'ListContacts';
+
+    this.state = {
+      contacts: ContactStore.getAll()
+    }
+    this._onChange = this._onChange.bind(this);
+  }
+
+  componentDidMount() {
+    ContactAction.getAllContacts();
+    ContactStore.startListening(this._onChange)
+  }
+  componentWillUnmount() {
+    ContactStore.stopListening(this._onChange)
+  }
+  _onChange(){
+    this.setState({
+      contacts: ContactStore.getAll()    })
   }
   render() {
+    // const ListContacts = 
+
+    let ItemLists = this.state.contacts.map(contact =>  <ListItem key={contact._id} {...contact}/>)
     return (
       <table className='highlight centered'>
         <thead>
@@ -17,14 +40,9 @@ class ListContacts extends React.Component {
           </tr>
         </thead>
 
-        <tbody id="contacts">
-          <tr id="template">
-            <td className='firstName-table'></td>
-            <td className="lastName-table"></td>
-            <td className="email-table"></td>
-            <td className="phone-table"></td>
-      </tr>
-      </tbody>
+        <tbody>
+          {ItemLists}
+        </tbody>
       </table>
       )
   }
